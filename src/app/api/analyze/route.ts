@@ -3,7 +3,7 @@ import { analyzePolicyText } from "@/lib/analyze";
 import type { PolicyType } from "@/lib/types";
 
 export const runtime = "nodejs";
-export const maxDuration = 60;
+export const maxDuration = 300;
 export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {

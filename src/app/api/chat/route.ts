@@ -3,7 +3,7 @@ import { streamText } from "ai";
 import { NextRequest } from "next/server";
 
 export const runtime = "nodejs";
-export const maxDuration = 60;
+export const maxDuration = 300;
 export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
