@@ -47,7 +47,7 @@ export async function analyzePolicyText(
   fileName: string,
   hintedType?: PolicyType,
 ): Promise<PolicyAnalysis> {
-  const truncated = text.slice(0, 120_000);
+  const truncated = text.slice(0, 60_000);
 
   const prompt = `File name: ${fileName}
 ${hintedType ? `User says the policy type is: ${hintedType}` : ""}
@@ -69,6 +69,8 @@ Produce the structured analysis now.`;
         schema: analysisSchema,
         system: SYSTEM_PROMPT,
         prompt,
+        maxTokens: 8000,
+        temperature: 0.2,
       });
       object = res.object;
       break;
