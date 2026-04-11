@@ -21,7 +21,7 @@ Rules:
 - If the user asks "should I keep this", give a reasoned yes/no, not a dodge.`;
 
   const result = streamText({
-    model: anthropic("claude-sonnet-4-5-20250929"),
+    model: anthropic("claude-sonnet-4-6"),
     system,
     messages,
   });

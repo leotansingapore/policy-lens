@@ -35,7 +35,7 @@ export function UploadZone() {
       form.append("file", file);
       form.append("policyType", policyType);
 
-      setStage("Sending to Claude for deep analysis…");
+      setStage("Analyzing policy…");
       const res = await fetch("/api/analyze", { method: "POST", body: form });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Analysis failed");

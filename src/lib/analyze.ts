@@ -49,11 +49,7 @@ export async function analyzePolicyText(
 ): Promise<PolicyAnalysis> {
   const truncated = text.slice(0, 120_000);
 
-  const { object } = await generateObject({
-    model: anthropic("claude-sonnet-4-5-20250929"),
-    schema: analysisSchema,
-    system: SYSTEM_PROMPT,
-    prompt: `File name: ${fileName}
+  const prompt = `File name: ${fileName}
 ${hintedType ? `User says the policy type is: ${hintedType}` : ""}
 
 Raw policy text (may be partially garbled from PDF extraction — use judgment):
@@ -62,8 +58,26 @@ Raw policy text (may be partially garbled from PDF extraction — use judgment):
 ${truncated}
 """
 
-Produce the structured analysis now.`,
-  });
+Produce the structured analysis now.`;
+
+  let object: z.infer<typeof analysisSchema> | null = null;
+  let lastErr: unknown = null;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      const res = await generateObject({
+        model: anthropic("claude-sonnet-4-6"),
+        schema: analysisSchema,
+        mode: "json",
+        system: SYSTEM_PROMPT,
+        prompt,
+      });
+      object = res.object;
+      break;
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  if (!object) throw lastErr ?? new Error("analysis failed");
 
   return {
     id: crypto.randomUUID(),
