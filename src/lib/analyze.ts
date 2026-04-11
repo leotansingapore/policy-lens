@@ -67,7 +67,6 @@ Produce the structured analysis now.`;
       const res = await generateObject({
         model: anthropic("claude-sonnet-4-6"),
         schema: analysisSchema,
-        mode: "json",
         system: SYSTEM_PROMPT,
         prompt,
       });
