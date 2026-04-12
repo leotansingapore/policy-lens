@@ -82,7 +82,7 @@ export function UploadZone() {
   return (
     <div className="card p-6 md:p-8">
       <div
-        className="border-2 border-dashed border-[#2a2a30] hover:border-[#E20A7F] rounded-xl p-10 text-center cursor-pointer transition-colors"
+        className="border-2 border-dashed border-[#2a2a30] hover:border-[hsl(var(--accent))] rounded-xl p-10 text-center cursor-pointer transition-colors"
         onClick={() => !busy && inputRef.current?.click()}
         onDragOver={(e) => e.preventDefault()}
         onDrop={(e) => {
@@ -104,20 +104,20 @@ export function UploadZone() {
         />
         {file ? (
           <div className="flex flex-col items-center gap-3">
-            <FileText className="w-10 h-10 text-[#E20A7F]" />
+            <FileText className="w-10 h-10 text-[hsl(var(--accent))]" />
             <div className="font-medium">{file.name}</div>
-            <div className="text-xs text-[#71717a]">
+            <div className="text-xs text-[hsl(var(--text-muted))]">
               {(file.size / 1024 / 1024).toFixed(2)} MB
             </div>
           </div>
         ) : (
           <div className="flex flex-col items-center gap-3">
-            <Upload className="w-10 h-10 text-[#71717a]" />
+            <Upload className="w-10 h-10 text-[hsl(var(--text-muted))]" />
             <div>
               <span className="font-medium">Drop a PDF here</span>
-              <span className="text-[#71717a]"> or click to browse</span>
+              <span className="text-[hsl(var(--text-muted))]"> or click to browse</span>
             </div>
-            <div className="text-xs text-[#71717a]">Max 50 MB · PDF only</div>
+            <div className="text-xs text-[hsl(var(--text-muted))]">Max 50 MB · PDF only</div>
           </div>
         )}
       </div>
@@ -130,7 +130,7 @@ export function UploadZone() {
             disabled={busy}
             className={`chip ${
               policyType === t.value ? "chip-info" : ""
-            } cursor-pointer hover:border-[#E20A7F]`}
+            } cursor-pointer hover:border-[hsl(var(--accent))]`}
           >
             {t.label}
           </button>
@@ -149,8 +149,8 @@ export function UploadZone() {
                     done
                       ? "bg-[#22c55e]/20 text-[#22c55e]"
                       : active
-                        ? "bg-[#E20A7F]/20 text-[#E20A7F] ring-2 ring-[#E20A7F]/40"
-                        : "bg-[#2C3B57] text-[#71717a]"
+                        ? "bg-[hsl(var(--accent))]/20 text-[hsl(var(--accent))] ring-2 ring-[#E20A7F]/40"
+                        : "bg-[hsl(var(--border))] text-[hsl(var(--text-muted))]"
                   }`}
                 >
                   {done ? "\u2713" : active ? <Loader2 className="w-3 h-3 animate-spin" /> : i + 1}
@@ -161,12 +161,12 @@ export function UploadZone() {
                       ? "text-[#22c55e]"
                       : active
                         ? "text-white"
-                        : "text-[#71717a]"
+                        : "text-[hsl(var(--text-muted))]"
                   }`}
                 >
                   {s.label}
                   {active && s.key === "analyze" && elapsed > 3 && (
-                    <span className="text-[#71717a] ml-2">({elapsed}s)</span>
+                    <span className="text-[hsl(var(--text-muted))] ml-2">({elapsed}s)</span>
                   )}
                 </span>
               </div>
@@ -177,7 +177,7 @@ export function UploadZone() {
 
       {!busy && !error && (
         <div className="mt-5 flex items-center justify-between gap-4">
-          <div className="text-sm text-[#a1a1aa]">Pick a policy type, then analyze.</div>
+          <div className="text-sm text-[hsl(var(--text-secondary))]">Pick a policy type, then analyze.</div>
           <button className="btn btn-primary" onClick={onAnalyze} disabled={!file}>
             Analyze policy
           </button>

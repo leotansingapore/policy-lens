@@ -141,13 +141,13 @@ export function PolicyChat({ policy, pendingQuestion, onQuestionConsumed }: Prop
   return (
     <section ref={sectionRef} className="card p-4 sm:p-6">
       <h2 className="font-semibold mb-4 flex items-center gap-2">
-        <MessageSquare className="w-4 h-4 text-[#E20A7F]" /> Ask about this policy
+        <MessageSquare className="w-4 h-4 text-[hsl(var(--accent))]" /> Ask about this policy
       </h2>
 
       <div className="space-y-3 mb-4 max-h-[460px] overflow-y-auto">
         {messages.length === 0 && (
           <div className="space-y-2">
-            <div className="text-sm text-[#71717a]">Try one of these:</div>
+            <div className="text-sm text-[hsl(var(--text-muted))]">Try one of these:</div>
             <div className="flex flex-wrap gap-2">
               {suggestions.map((s) => (
                 <button
@@ -159,7 +159,7 @@ export function PolicyChat({ policy, pendingQuestion, onQuestionConsumed }: Prop
                     taRef.current?.focus();
                     setTimeout(autoresize, 0);
                   }}
-                  className="text-xs px-3 py-1.5 rounded-full border border-[#2C3B57] bg-[#0D1526] text-[#a1a1aa] hover:text-white hover:border-[#E20A7F]/50 transition disabled:opacity-50"
+                  className="text-xs px-3 py-1.5 rounded-full border border-[hsl(var(--border))] bg-[hsl(var(--panel))] text-[hsl(var(--text-secondary))] hover:text-white hover:border-[hsl(var(--accent))]/50 transition disabled:opacity-50"
                 >
                   {s}
                 </button>
@@ -172,11 +172,11 @@ export function PolicyChat({ policy, pendingQuestion, onQuestionConsumed }: Prop
             key={i}
             className={`text-sm leading-relaxed p-3 rounded-lg ${
               m.role === "user"
-                ? "bg-[#1A0A15] border border-[#E20A7F]/30"
-                : "bg-[#0D1526] border border-[#2C3B57]"
+                ? "bg-[hsl(var(--accent-soft))] border border-[hsl(var(--accent))]/30"
+                : "bg-[hsl(var(--panel))] border border-[hsl(var(--border))]"
             }`}
           >
-            <div className="text-xs text-[#71717a] mb-1">
+            <div className="text-xs text-[hsl(var(--text-muted))] mb-1">
               {m.role === "user" ? "You" : "PolicyLens"}
             </div>
             <div className="whitespace-pre-wrap">{m.content || "..."}</div>
@@ -184,7 +184,7 @@ export function PolicyChat({ policy, pendingQuestion, onQuestionConsumed }: Prop
         ))}
       </div>
 
-      <p className="text-xs text-[#71717a] mb-2">
+      <p className="text-xs text-[hsl(var(--text-muted))] mb-2">
         Answers are AI-generated from your policy text. Always verify with a licensed financial advisor.
       </p>
 
@@ -200,7 +200,7 @@ export function PolicyChat({ policy, pendingQuestion, onQuestionConsumed }: Prop
           onKeyDown={handleKey}
           disabled={busy}
           placeholder="Ask a question about this policy..."
-          className="flex-1 bg-[#080D1A] border border-[#2C3B57] rounded-lg px-3 py-2 text-sm outline-none focus:border-[#E20A7F] resize-none min-h-[40px] max-h-[160px]"
+          className="flex-1 bg-[hsl(var(--bg))] border border-[hsl(var(--border))] rounded-lg px-3 py-2 text-sm outline-none focus:border-[hsl(var(--accent))] resize-none min-h-[40px] max-h-[160px]"
         />
         <button
           className="btn btn-primary"

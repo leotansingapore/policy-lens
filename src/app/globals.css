@@ -2,14 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  color-scheme: dark;
+/* ===== Light mode (default) ===== */
+:root,
+.light {
+  color-scheme: light;
+  --bg: 0 0% 98%;
+  --panel: 0 0% 100%;
+  --border: 0 0% 88%;
+  --text: 0 0% 12%;
+  --text-secondary: 0 0% 45%;
+  --text-muted: 0 0% 60%;
+  --accent: 338 89% 47%;
+  --accent-soft: 338 89% 96%;
+  --danger: 0 84% 60%;
+  --warn: 45 93% 47%;
+  --ok: 142 76% 36%;
 }
 
-html,
-body {
-  background-color: hsl(222.2 84% 4.9%);
-  color: hsl(210 40% 98%);
+/* ===== Dark mode ===== */
+.dark {
+  color-scheme: dark;
+  --bg: 222.2 84% 4.9%;
+  --panel: 222.2 84% 7%;
+  --border: 217.2 32.6% 25%;
+  --text: 210 40% 98%;
+  --text-secondary: 215 20.2% 75%;
+  --text-muted: 215 20% 55%;
+  --accent: 338 89% 47%;
+  --accent-soft: 338 89% 47% / 0.12;
+  --danger: 0 84% 60%;
+  --warn: 45 93% 47%;
+  --ok: 142 76% 36%;
+}
+
+html, body {
+  background-color: hsl(var(--bg));
+  color: hsl(var(--text));
   -webkit-font-smoothing: antialiased;
 }
 
@@ -18,20 +46,20 @@ body {
 }
 
 ::selection {
-  background: hsl(338 89% 47%);
+  background: hsl(var(--accent));
   color: #fff;
 }
 
 .grid-bg {
   background-image:
-    radial-gradient(circle at 20% 0%, hsl(338 89% 47% / 0.12), transparent 45%),
-    radial-gradient(circle at 80% 10%, hsl(338 89% 47% / 0.06), transparent 40%),
-    linear-gradient(to bottom, hsl(222.2 84% 4.9%), hsl(222.2 84% 4.9%));
+    radial-gradient(circle at 20% 0%, hsl(var(--accent) / 0.1), transparent 45%),
+    radial-gradient(circle at 80% 10%, hsl(var(--accent) / 0.05), transparent 40%),
+    linear-gradient(to bottom, hsl(var(--bg)), hsl(var(--bg)));
 }
 
 .card {
-  background: hsl(222.2 84% 7%);
-  border: 1px solid hsl(217.2 32.6% 25%);
+  background: hsl(var(--panel));
+  border: 1px solid hsl(var(--border));
   border-radius: 0.5rem;
 }
 
@@ -49,7 +77,7 @@ body {
 }
 
 .btn-primary {
-  background: hsl(338 89% 47%);
+  background: hsl(var(--accent));
   color: #fff;
 }
 
@@ -64,12 +92,12 @@ body {
 
 .btn-ghost {
   background: transparent;
-  color: hsl(210 40% 98%);
-  border-color: hsl(217.2 32.6% 25%);
+  color: hsl(var(--text));
+  border-color: hsl(var(--border));
 }
 
 .btn-ghost:hover {
-  background: hsl(222.2 84% 7%);
+  background: hsl(var(--panel));
 }
 
 .chip {
@@ -80,11 +108,11 @@ body {
   border-radius: 999px;
   font-size: 0.7rem;
   font-weight: 500;
-  border: 1px solid hsl(217.2 32.6% 25%);
-  background: hsl(222.2 84% 7%);
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--panel));
 }
 
-.chip-warn { color: hsl(45 93% 47%); border-color: hsl(45 93% 47% / 0.35); }
-.chip-danger { color: hsl(0 84% 60%); border-color: hsl(0 84% 60% / 0.35); }
-.chip-ok { color: hsl(142 76% 36%); border-color: hsl(142 76% 36% / 0.35); }
-.chip-info { color: hsl(338 89% 60%); border-color: hsl(338 89% 47% / 0.4); }
+.chip-warn { color: hsl(var(--warn)); border-color: hsl(var(--warn) / 0.35); }
+.chip-danger { color: hsl(var(--danger)); border-color: hsl(var(--danger) / 0.35); }
+.chip-ok { color: hsl(var(--ok)); border-color: hsl(var(--ok) / 0.35); }
+.chip-info { color: hsl(var(--accent)); border-color: hsl(var(--accent) / 0.4); }

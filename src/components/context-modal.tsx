@@ -65,17 +65,17 @@ export function ContextModal({ open, onClose, onSave, loading }: Props) {
       <div className="relative card p-6 w-full max-w-md mx-4">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-[#71717a] hover:text-white"
+          className="absolute top-4 right-4 text-[hsl(var(--text-muted))] hover:text-white"
           aria-label="Close"
         >
           <X className="w-5 h-5" />
         </button>
 
         <h2 className="font-semibold text-lg mb-1 flex items-center gap-2">
-          <User className="w-5 h-5 text-[#E20A7F]" />
+          <User className="w-5 h-5 text-[hsl(var(--accent))]" />
           Your context
         </h2>
-        <p className="text-sm text-[#a1a1aa] mb-5">
+        <p className="text-sm text-[hsl(var(--text-secondary))] mb-5">
           Tell us about yourself so we can personalize the gap analysis and risk
           projection. This stays in your browser.
         </p>
@@ -117,7 +117,7 @@ export function ContextModal({ open, onClose, onSave, loading }: Props) {
               onChange={(e) => setExisting(e.target.value)}
               placeholder="e.g. Company group insurance, AIA HealthShield Gold, Prudential PRUActive Term..."
               rows={2}
-              className="w-full bg-[#080D1A] border border-[#2C3B57] rounded-lg px-3 py-2 text-sm outline-none focus:border-[#E20A7F] resize-none"
+              className="w-full bg-[hsl(var(--bg))] border border-[hsl(var(--border))] rounded-lg px-3 py-2 text-sm outline-none focus:border-[hsl(var(--accent))] resize-none"
             />
           </div>
 
@@ -171,7 +171,7 @@ function Field({
         min={min}
         max={max}
         required={required}
-        className="w-full bg-[#080D1A] border border-[#2C3B57] rounded-lg px-3 py-2 text-sm outline-none focus:border-[#E20A7F]"
+        className="w-full bg-[hsl(var(--bg))] border border-[hsl(var(--border))] rounded-lg px-3 py-2 text-sm outline-none focus:border-[hsl(var(--accent))]"
       />
     </div>
   );

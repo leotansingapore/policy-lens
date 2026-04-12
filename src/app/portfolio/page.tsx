@@ -23,7 +23,7 @@ export default function PortfolioPage() {
       <div className="flex items-end justify-between mb-8">
         <div>
           <h1 className="text-3xl font-semibold mb-1">My portfolio</h1>
-          <p className="text-[#a1a1aa]">Every policy you have analyzed, saved to this browser.</p>
+          <p className="text-[hsl(var(--text-secondary))]">Every policy you have analyzed, saved to this browser.</p>
         </div>
         <Link href="/" className="btn btn-primary">
           <Plus className="w-4 h-4" /> Analyze new
@@ -31,12 +31,12 @@ export default function PortfolioPage() {
       </div>
 
       {items === null ? (
-        <div className="text-[#71717a]">Loading…</div>
+        <div className="text-[hsl(var(--text-muted))]">Loading…</div>
       ) : items.length === 0 ? (
         <div className="card p-12 text-center">
-          <FileText className="w-10 h-10 text-[#71717a] mx-auto mb-3" />
+          <FileText className="w-10 h-10 text-[hsl(var(--text-muted))] mx-auto mb-3" />
           <h3 className="font-semibold mb-1">No policies yet</h3>
-          <p className="text-sm text-[#a1a1aa] mb-5">
+          <p className="text-sm text-[hsl(var(--text-secondary))] mb-5">
             Upload your first policy to start building your portfolio.
           </p>
           <Link href="/" className="btn btn-primary">
@@ -58,18 +58,18 @@ export default function PortfolioPage() {
               <div key={p.id} className="card p-5 flex flex-col gap-4">
                 <div className="flex items-start justify-between gap-3">
                   <Link href={`/policy/${p.id}`} className="flex-1 min-w-0">
-                    <div className="text-xs uppercase tracking-wide text-[#71717a] mb-1">
+                    <div className="text-xs uppercase tracking-wide text-[hsl(var(--text-muted))] mb-1">
                       {p.policyType}
                     </div>
                     <div className="font-semibold truncate">
                       {p.planName ?? p.fileName}
                     </div>
-                    <div className="text-sm text-[#a1a1aa] truncate">
+                    <div className="text-sm text-[hsl(var(--text-secondary))] truncate">
                       {p.insurer ?? "Unknown insurer"}
                     </div>
                   </Link>
                   <button
-                    className="text-[#71717a] hover:text-red-400 p-1"
+                    className="text-[hsl(var(--text-muted))] hover:text-red-400 p-1"
                     onClick={() => onDelete(p.id)}
                     aria-label="Delete"
                   >
@@ -94,7 +94,7 @@ export default function PortfolioPage() {
         </div>
       )}
 
-      <footer className="mt-10 text-center text-xs text-[#71717a]">
+      <footer className="mt-10 text-center text-xs text-[hsl(var(--text-muted))]">
         This is not financial advice. Consult a licensed financial advisor before making policy decisions.
       </footer>
     </main>

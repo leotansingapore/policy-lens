@@ -86,7 +86,7 @@ export default function PolicyDetailPage() {
         </Link>
         <div className="card p-10 text-center">
           <h2 className="font-semibold mb-1">Policy not found</h2>
-          <p className="text-sm text-[#a1a1aa]">
+          <p className="text-sm text-[hsl(var(--text-secondary))]">
             This link only works in the browser where you analyzed the policy.
           </p>
         </div>
@@ -116,13 +116,13 @@ export default function PolicyDetailPage() {
       </div>
 
       <header className="mb-6">
-        <div className="text-xs uppercase tracking-wide text-[#71717a] mb-2">
+        <div className="text-xs uppercase tracking-wide text-[hsl(var(--text-muted))] mb-2">
           {policy.policyType}
         </div>
         <h1 className="text-2xl sm:text-3xl font-semibold mb-1 break-words">
           {policy.planName ?? policy.fileName}
         </h1>
-        <div className="text-[#a1a1aa]">{policy.insurer ?? "Unknown insurer"}</div>
+        <div className="text-[hsl(var(--text-secondary))]">{policy.insurer ?? "Unknown insurer"}</div>
         <div className="mt-4 flex flex-wrap gap-2">
           {policy.policyholder && (
             <span className="chip">Policyholder: {policy.policyholder}</span>
@@ -136,13 +136,13 @@ export default function PolicyDetailPage() {
         </div>
       </header>
 
-      <section className="mb-8 border-l-4 border-[#E20A7F] pl-4 sm:pl-5 py-3">
-        <p className="text-base sm:text-lg text-[#d4d4d8] leading-relaxed italic">
+      <section className="mb-8 border-l-4 border-[hsl(var(--accent))] pl-4 sm:pl-5 py-3">
+        <p className="text-base sm:text-lg text-[hsl(var(--text))] leading-relaxed italic">
           &ldquo;{policy.summary}&rdquo;
         </p>
       </section>
 
-      <div className="flex gap-1 sm:gap-2 mb-6 border-b border-[#2C3B57] overflow-x-auto">
+      <div className="flex gap-1 sm:gap-2 mb-6 border-b border-[hsl(var(--border))] overflow-x-auto">
         <TabButton
           active={tab === "fine-print"}
           onClick={() => setTab("fine-print")}
@@ -170,7 +170,7 @@ export default function PolicyDetailPage() {
               </h2>
               <ul className="space-y-2">
                 {policy.coverageHighlights.map((h, i) => (
-                  <li key={i} className="text-sm text-[#d4d4d8] flex gap-2">
+                  <li key={i} className="text-sm text-[hsl(var(--text))] flex gap-2">
                     <span className="text-[#22c55e] mt-0.5 shrink-0">&#x2713;</span>
                     {h}
                   </li>
@@ -192,7 +192,7 @@ export default function PolicyDetailPage() {
           />
           <FindingsSection
             title="Waiting periods"
-            icon={<Info className="w-4 h-4 text-[#E20A7F]" />}
+            icon={<Info className="w-4 h-4 text-[hsl(var(--accent))]" />}
             findings={policy.waitingPeriods}
             onAsk={askAboutFinding}
           />
@@ -203,17 +203,17 @@ export default function PolicyDetailPage() {
         <>
           <section className="card p-4 sm:p-6 mb-6">
             <h2 className="font-semibold mb-2 flex items-center gap-2">
-              <Search className="w-4 h-4 text-[#E20A7F]" /> What this policy
+              <Search className="w-4 h-4 text-[hsl(var(--accent))]" /> What this policy
               doesn&apos;t cover
             </h2>
-            <p className="text-sm text-[#a1a1aa] leading-relaxed">
+            <p className="text-sm text-[hsl(var(--text-secondary))] leading-relaxed">
               Most consumers assume their policy is broader than it is. These are the
               protections this plan leaves on the table.
             </p>
           </section>
 
           {gapCount === 0 ? (
-            <section className="card p-4 sm:p-6 mb-6 text-sm text-[#a1a1aa]">
+            <section className="card p-4 sm:p-6 mb-6 text-sm text-[hsl(var(--text-secondary))]">
               No material coverage gaps were detected on this policy.
             </section>
           ) : (
@@ -229,7 +229,7 @@ export default function PolicyDetailPage() {
           {policy.questionsToAsk?.length > 0 && (
             <section className="card p-4 sm:p-6 mb-6">
               <h2 className="font-semibold mb-3">Questions to ask your advisor</h2>
-              <ol className="space-y-2 list-decimal list-inside text-sm text-[#d4d4d8]">
+              <ol className="space-y-2 list-decimal list-inside text-sm text-[hsl(var(--text))]">
                 {policy.questionsToAsk.map((q, i) => (
                   <li key={i}>{q}</li>
                 ))}
@@ -239,11 +239,11 @@ export default function PolicyDetailPage() {
 
           {insightsLoading && (
             <section className="card p-4 sm:p-6 mb-6 animate-pulse">
-              <div className="h-5 w-48 bg-[#2C3B57] rounded mb-4" />
+              <div className="h-5 w-48 bg-[hsl(var(--border))] rounded mb-4" />
               <div className="space-y-3">
-                <div className="h-4 w-full bg-[#2C3B57] rounded" />
-                <div className="h-4 w-3/4 bg-[#2C3B57] rounded" />
-                <div className="h-20 w-full bg-[#2C3B57] rounded" />
+                <div className="h-4 w-full bg-[hsl(var(--border))] rounded" />
+                <div className="h-4 w-3/4 bg-[hsl(var(--border))] rounded" />
+                <div className="h-20 w-full bg-[hsl(var(--border))] rounded" />
               </div>
             </section>
           )}
@@ -252,7 +252,7 @@ export default function PolicyDetailPage() {
 
           {!insights && !insightsLoading && (
             <section className="card p-4 sm:p-6 mb-6 text-center">
-              <p className="text-sm text-[#a1a1aa] mb-3">
+              <p className="text-sm text-[hsl(var(--text-secondary))] mb-3">
                 Add your age, income, and dependents for a personalized 10-year
                 risk projection and coverage recommendations.
               </p>
@@ -273,7 +273,7 @@ export default function PolicyDetailPage() {
         onQuestionConsumed={() => setChatQuestion(null)}
       />
 
-      <footer className="mt-6 mb-2 text-center text-xs text-[#71717a]">
+      <footer className="mt-6 mb-2 text-center text-xs text-[hsl(var(--text-muted))]">
         This is not financial advice. Consult a licensed financial advisor before
         making policy changes.
       </footer>
@@ -292,22 +292,22 @@ export default function PolicyDetailPage() {
 function ReportSkeleton() {
   return (
     <main className="max-w-5xl mx-auto px-4 sm:px-6 py-10 animate-pulse">
-      <div className="h-4 w-28 bg-[#2C3B57] rounded mb-6" />
-      <div className="h-3 w-20 bg-[#2C3B57] rounded mb-3" />
-      <div className="h-8 w-3/4 sm:w-80 bg-[#2C3B57] rounded mb-2" />
-      <div className="h-4 w-48 bg-[#2C3B57] rounded mb-6" />
-      <div className="border-l-4 border-[#2C3B57] pl-5 py-3 mb-8">
-        <div className="h-5 w-full bg-[#2C3B57] rounded mb-2" />
-        <div className="h-5 w-3/4 bg-[#2C3B57] rounded" />
+      <div className="h-4 w-28 bg-[hsl(var(--border))] rounded mb-6" />
+      <div className="h-3 w-20 bg-[hsl(var(--border))] rounded mb-3" />
+      <div className="h-8 w-3/4 sm:w-80 bg-[hsl(var(--border))] rounded mb-2" />
+      <div className="h-4 w-48 bg-[hsl(var(--border))] rounded mb-6" />
+      <div className="border-l-4 border-[hsl(var(--border))] pl-5 py-3 mb-8">
+        <div className="h-5 w-full bg-[hsl(var(--border))] rounded mb-2" />
+        <div className="h-5 w-3/4 bg-[hsl(var(--border))] rounded" />
       </div>
       {[1, 2, 3].map((n) => (
         <div key={n} className="card p-4 sm:p-6 mb-6">
-          <div className="h-5 w-40 bg-[#2C3B57] rounded mb-4" />
+          <div className="h-5 w-40 bg-[hsl(var(--border))] rounded mb-4" />
           <div className="space-y-3">
             {[1, 2].map((j) => (
-              <div key={j} className="border-l-2 border-[#2C3B57] pl-4 py-1">
-                <div className="h-4 w-56 bg-[#2C3B57] rounded mb-2" />
-                <div className="h-3 w-full bg-[#2C3B57] rounded" />
+              <div key={j} className="border-l-2 border-[hsl(var(--border))] pl-4 py-1">
+                <div className="h-4 w-56 bg-[hsl(var(--border))] rounded mb-2" />
+                <div className="h-3 w-full bg-[hsl(var(--border))] rounded" />
               </div>
             ))}
           </div>
@@ -338,8 +338,8 @@ function TabButton({
       onClick={onClick}
       className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-3 text-xs sm:text-sm font-medium border-b-2 transition -mb-px whitespace-nowrap ${
         active
-          ? "border-[#E20A7F] text-white"
-          : "border-transparent text-[#71717a] hover:text-[#d4d4d8]"
+          ? "border-[hsl(var(--accent))] text-white"
+          : "border-transparent text-[hsl(var(--text-muted))] hover:text-[hsl(var(--text))]"
       }`}
     >
       {icon}
@@ -349,8 +349,8 @@ function TabButton({
         <span
           className={`text-xs px-1.5 sm:px-2 py-0.5 rounded-full ${
             active
-              ? "bg-[#E20A7F]/20 text-[#F5A0C8]"
-              : "bg-[#2C3B57] text-[#71717a]"
+              ? "bg-[hsl(var(--accent))]/20 text-[hsl(var(--accent))]"
+              : "bg-[hsl(var(--border))] text-[hsl(var(--text-muted))]"
           }`}
         >
           {count}
@@ -394,7 +394,7 @@ function FindingCard({
                 e.stopPropagation();
                 onAsk(finding);
               }}
-              className="text-[#71717a] hover:text-[#E20A7F] transition p-1 rounded opacity-0 group-hover:opacity-100"
+              className="text-[hsl(var(--text-muted))] hover:text-[hsl(var(--accent))] transition p-1 rounded opacity-0 group-hover:opacity-100"
               title="Ask about this"
               aria-label="Ask about this finding"
             >
@@ -404,7 +404,7 @@ function FindingCard({
           {isLong && (
             <button
               onClick={() => setOpen(!open)}
-              className="text-[#71717a] opacity-0 group-hover:opacity-100 transition p-1"
+              className="text-[hsl(var(--text-muted))] opacity-0 group-hover:opacity-100 transition p-1"
             >
               {open ? (
                 <ChevronUp className="w-3.5 h-3.5" />
@@ -416,7 +416,7 @@ function FindingCard({
         </div>
       </div>
       <p
-        className={`text-sm text-[#a1a1aa] leading-relaxed transition-all cursor-pointer ${
+        className={`text-sm text-[hsl(var(--text-secondary))] leading-relaxed transition-all cursor-pointer ${
           !showDetail ? "line-clamp-2" : ""
         }`}
         onClick={() => isLong && setOpen(!open)}
@@ -424,7 +424,7 @@ function FindingCard({
         {finding.detail}
       </p>
       {finding.pageHint && (
-        <p className="text-xs text-[#71717a] mt-1">Reference: {finding.pageHint}</p>
+        <p className="text-xs text-[hsl(var(--text-muted))] mt-1">Reference: {finding.pageHint}</p>
       )}
     </div>
   );
