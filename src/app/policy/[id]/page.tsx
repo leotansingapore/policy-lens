@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { getPolicy } from "@/lib/storage";
-import type { Finding, PolicyAnalysis } from "@/lib/types";
+import type { Finding, PolicyAnalysis, UserContext, PersonalizedInsights } from "@/lib/types";
 import {
   AlertTriangle,
   CheckCircle2,
@@ -15,21 +15,62 @@ import {
   Search,
   ChevronDown,
   ChevronUp,
+  UserCircle,
 } from "lucide-react";
 import { PolicyChat } from "@/components/policy-chat";
+import { ContextModal, loadUserContext } from "@/components/context-modal";
+import { RiskProjection } from "@/components/risk-projection";
 
 type Tab = "fine-print" | "gap-finder";
 
 export default function PolicyDetailPage() {
   const params = useParams<{ id: string }>();
-  const [policy, setPolicy] = useState<PolicyAnalysis | null | undefined>(
-    undefined,
-  );
+  const [policy, setPolicy] = useState<PolicyAnalysis | null | undefined>(undefined);
   const [tab, setTab] = useState<Tab>("fine-print");
+  const [contextOpen, setContextOpen] = useState(false);
+  const [insights, setInsights] = useState<PersonalizedInsights | null>(null);
+  const [insightsLoading, setInsightsLoading] = useState(false);
+  const [userCtx, setUserCtx] = useState<UserContext | null>(null);
 
   useEffect(() => {
-    setPolicy(getPolicy(params.id));
+    const p = getPolicy(params.id);
+    setPolicy(p);
+    setUserCtx(loadUserContext());
   }, [params.id]);
+
+  const generateInsights = useCallback(
+    async (ctx: UserContext) => {
+      if (!policy) return;
+      setInsightsLoading(true);
+      setContextOpen(false);
+      setTab("gap-finder");
+      try {
+        const res = await fetch("/api/personalize", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userContext: ctx, policyAnalysis: policy }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Failed to generate insights");
+        setInsights(data as PersonalizedInsights);
+        setUserCtx(ctx);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setInsightsLoading(false);
+      }
+    },
+    [policy],
+  );
+
+  // Auto-generate on mount if user context exists but insights don't
+  useEffect(() => {
+    const saved = loadUserContext();
+    if (saved && !insights && policy && !insightsLoading) {
+      generateInsights(saved);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [policy]);
 
   if (policy === undefined) return <ReportSkeleton />;
   if (policy === null) {
@@ -56,9 +97,18 @@ export default function PolicyDetailPage() {
 
   return (
     <main className="max-w-5xl mx-auto px-6 py-10">
-      <Link href="/portfolio" className="btn btn-ghost mb-5 text-sm">
-        <ArrowLeft className="w-4 h-4" /> Back to portfolio
-      </Link>
+      <div className="flex items-center justify-between mb-5">
+        <Link href="/portfolio" className="btn btn-ghost text-sm">
+          <ArrowLeft className="w-4 h-4" /> Back to portfolio
+        </Link>
+        <button
+          onClick={() => setContextOpen(true)}
+          className="btn btn-ghost text-sm"
+        >
+          <UserCircle className="w-4 h-4" />
+          {userCtx ? `Age ${userCtx.age}` : "Update context"}
+        </button>
+      </div>
 
       <header className="mb-6">
         <div className="text-xs uppercase tracking-wide text-[#71717a] mb-2">
@@ -67,9 +117,7 @@ export default function PolicyDetailPage() {
         <h1 className="text-3xl font-semibold mb-1">
           {policy.planName ?? policy.fileName}
         </h1>
-        <div className="text-[#a1a1aa]">
-          {policy.insurer ?? "Unknown insurer"}
-        </div>
+        <div className="text-[#a1a1aa]">{policy.insurer ?? "Unknown insurer"}</div>
         <div className="mt-4 flex flex-wrap gap-2">
           {policy.policyholder && (
             <span className="chip">Policyholder: {policy.policyholder}</span>
@@ -83,7 +131,6 @@ export default function PolicyDetailPage() {
         </div>
       </header>
 
-      {/* Summary quote block */}
       <section className="mb-8 border-l-4 border-[#7c5cff] pl-5 py-3">
         <p className="text-lg text-[#d4d4d8] leading-relaxed italic">
           &ldquo;{policy.summary}&rdquo;
@@ -112,22 +159,18 @@ export default function PolicyDetailPage() {
           {policy.coverageHighlights?.length > 0 && (
             <section className="card p-6 mb-6">
               <h2 className="font-semibold mb-3 flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#22c55e]" /> Coverage
-                highlights
+                <CheckCircle2 className="w-4 h-4 text-[#22c55e]" /> Coverage highlights
               </h2>
               <ul className="space-y-2">
                 {policy.coverageHighlights.map((h, i) => (
                   <li key={i} className="text-sm text-[#d4d4d8] flex gap-2">
-                    <span className="text-[#22c55e] mt-0.5 shrink-0">
-                      &#x2713;
-                    </span>
+                    <span className="text-[#22c55e] mt-0.5 shrink-0">&#x2713;</span>
                     {h}
                   </li>
                 ))}
               </ul>
             </section>
           )}
-
           <FindingsSection
             title="Red flags"
             icon={<ShieldAlert className="w-4 h-4 text-[#ef4444]" />}
@@ -154,9 +197,8 @@ export default function PolicyDetailPage() {
               doesn&apos;t cover
             </h2>
             <p className="text-sm text-[#a1a1aa] leading-relaxed">
-              Most consumers assume their policy is broader than it is. These
-              are the protections this plan leaves on the table — things you may
-              need to cover with a separate product.
+              Most consumers assume their policy is broader than it is. These are the
+              protections this plan leaves on the table.
             </p>
           </section>
 
@@ -175,14 +217,43 @@ export default function PolicyDetailPage() {
 
           {policy.questionsToAsk?.length > 0 && (
             <section className="card p-6 mb-6">
-              <h2 className="font-semibold mb-3">
-                Questions to ask your advisor
-              </h2>
+              <h2 className="font-semibold mb-3">Questions to ask your advisor</h2>
               <ol className="space-y-2 list-decimal list-inside text-sm text-[#d4d4d8]">
                 {policy.questionsToAsk.map((q, i) => (
                   <li key={i}>{q}</li>
                 ))}
               </ol>
+            </section>
+          )}
+
+          {/* Personalized section */}
+          {insightsLoading && (
+            <section className="card p-6 mb-6 animate-pulse">
+              <div className="h-5 w-48 bg-[#1f1f24] rounded mb-4" />
+              <div className="space-y-3">
+                <div className="h-4 w-full bg-[#1f1f24] rounded" />
+                <div className="h-4 w-3/4 bg-[#1f1f24] rounded" />
+                <div className="h-20 w-full bg-[#1f1f24] rounded" />
+              </div>
+            </section>
+          )}
+
+          {insights && !insightsLoading && (
+            <RiskProjection insights={insights} />
+          )}
+
+          {!insights && !insightsLoading && (
+            <section className="card p-6 mb-6 text-center">
+              <p className="text-sm text-[#a1a1aa] mb-3">
+                Add your age, income, and dependents for a personalized 10-year
+                risk projection and coverage recommendations.
+              </p>
+              <button
+                onClick={() => setContextOpen(true)}
+                className="btn btn-primary text-sm"
+              >
+                <UserCircle className="w-4 h-4" /> Personalize analysis
+              </button>
             </section>
           )}
         </>
@@ -194,6 +265,13 @@ export default function PolicyDetailPage() {
         This is not financial advice. Consult a licensed financial advisor before
         making policy changes.
       </footer>
+
+      <ContextModal
+        open={contextOpen}
+        onClose={() => setContextOpen(false)}
+        onSave={generateInsights}
+        loading={insightsLoading}
+      />
     </main>
   );
 }
@@ -306,9 +384,7 @@ function FindingCard({ finding }: { finding: Finding }) {
         {finding.detail}
       </p>
       {finding.pageHint && (
-        <p className="text-xs text-[#71717a] mt-1">
-          Reference: {finding.pageHint}
-        </p>
+        <p className="text-xs text-[#71717a] mt-1">Reference: {finding.pageHint}</p>
       )}
     </div>
   );
@@ -334,9 +410,7 @@ function FindingsSection({
         {title}
       </h2>
       <div className="space-y-3">
-        {findings?.map((f, i) => (
-          <FindingCard key={i} finding={f} />
-        ))}
+        {findings?.map((f, i) => <FindingCard key={i} finding={f} />)}
       </div>
     </section>
   );

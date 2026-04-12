@@ -26,3 +26,26 @@ export interface PolicyAnalysis {
   createdAt: string;
   rawTextPreview: string;
 }
+
+export interface UserContext {
+  age: number;
+  monthlyIncome: number;
+  dependents: number;
+  existingCoverage: string;
+}
+
+export type RiskLevel = "low" | "medium" | "high";
+
+export interface RiskRow {
+  category: string;
+  now: { level: RiskLevel; reason: string };
+  fiveYear: { level: RiskLevel; reason: string };
+  tenYear: { level: RiskLevel; reason: string };
+}
+
+export interface PersonalizedInsights {
+  summary: string;
+  riskProjection: RiskRow[];
+  recommendations: string[];
+  tips: string[];
+}
