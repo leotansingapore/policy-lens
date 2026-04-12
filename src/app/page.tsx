@@ -24,6 +24,9 @@ export default function Home() {
         <p className="text-xs text-center text-[#71717a] mt-3">
           Stays in your browser. Policies save to your device, not a server.
         </p>
+        <p className="text-xs text-center text-[#71717a] mt-1">
+          This is not financial advice. Always consult a licensed financial advisor before making policy decisions.
+        </p>
       </section>
 
       <section className="grid md:grid-cols-3 gap-4 mb-20">

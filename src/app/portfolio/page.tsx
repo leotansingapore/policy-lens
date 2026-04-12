@@ -93,6 +93,10 @@ export default function PortfolioPage() {
           })}
         </div>
       )}
+
+      <footer className="mt-10 text-center text-xs text-[#71717a]">
+        This is not financial advice. Consult a licensed financial advisor before making policy decisions.
+      </footer>
     </main>
   );
 }

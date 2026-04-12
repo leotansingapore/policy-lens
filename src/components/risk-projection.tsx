@@ -105,6 +105,10 @@ export function RiskProjection({ insights }: { insights: PersonalizedInsights })
           </ol>
         </section>
       )}
+
+      <p className="text-xs text-[#71717a] text-center mt-2">
+        This is not financial advice. Projections are illustrative only. Consult a licensed financial advisor before making policy decisions.
+      </p>
     </div>
   );
 }

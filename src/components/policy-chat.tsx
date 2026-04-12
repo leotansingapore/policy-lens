@@ -184,6 +184,10 @@ export function PolicyChat({ policy, pendingQuestion, onQuestionConsumed }: Prop
         ))}
       </div>
 
+      <p className="text-xs text-[#71717a] mb-2">
+        Answers are AI-generated from your policy text. Always verify with a licensed financial advisor.
+      </p>
+
       <div className="flex gap-2 items-end">
         <textarea
           ref={taRef}
