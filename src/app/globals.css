@@ -8,8 +8,8 @@
 
 html,
 body {
-  background-color: #09090b;
-  color: #fafafa;
+  background-color: hsl(222.2 84% 4.9%);
+  color: hsl(210 40% 98%);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -18,21 +18,21 @@ body {
 }
 
 ::selection {
-  background: #7c5cff;
+  background: hsl(338 89% 47%);
   color: #fff;
 }
 
 .grid-bg {
   background-image:
-    radial-gradient(circle at 20% 0%, rgba(124, 92, 255, 0.18), transparent 45%),
-    radial-gradient(circle at 80% 10%, rgba(124, 92, 255, 0.08), transparent 40%),
-    linear-gradient(to bottom, #09090b, #09090b);
+    radial-gradient(circle at 20% 0%, hsl(338 89% 47% / 0.12), transparent 45%),
+    radial-gradient(circle at 80% 10%, hsl(338 89% 47% / 0.06), transparent 40%),
+    linear-gradient(to bottom, hsl(222.2 84% 4.9%), hsl(222.2 84% 4.9%));
 }
 
 .card {
-  background: #0f0f12;
-  border: 1px solid #1f1f24;
-  border-radius: 16px;
+  background: hsl(222.2 84% 7%);
+  border: 1px solid hsl(217.2 32.6% 25%);
+  border-radius: 0.5rem;
 }
 
 .btn {
@@ -41,7 +41,7 @@ body {
   justify-content: center;
   gap: 0.5rem;
   padding: 0.625rem 1rem;
-  border-radius: 10px;
+  border-radius: 0.5rem;
   font-weight: 500;
   font-size: 0.875rem;
   transition: all 0.15s ease;
@@ -49,22 +49,27 @@ body {
 }
 
 .btn-primary {
-  background: #7c5cff;
+  background: hsl(338 89% 47%);
   color: #fff;
 }
 
 .btn-primary:hover {
-  background: #6b4bef;
+  background: hsl(338 89% 42%);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .btn-ghost {
   background: transparent;
-  color: #fafafa;
-  border-color: #1f1f24;
+  color: hsl(210 40% 98%);
+  border-color: hsl(217.2 32.6% 25%);
 }
 
 .btn-ghost:hover {
-  background: #0f0f12;
+  background: hsl(222.2 84% 7%);
 }
 
 .chip {
@@ -75,11 +80,11 @@ body {
   border-radius: 999px;
   font-size: 0.7rem;
   font-weight: 500;
-  border: 1px solid #1f1f24;
-  background: #0f0f12;
+  border: 1px solid hsl(217.2 32.6% 25%);
+  background: hsl(222.2 84% 7%);
 }
 
-.chip-warn { color: #f5a524; border-color: rgba(245, 165, 36, 0.35); }
-.chip-danger { color: #ef4444; border-color: rgba(239, 68, 68, 0.35); }
-.chip-ok { color: #22c55e; border-color: rgba(34, 197, 94, 0.35); }
-.chip-info { color: #7c5cff; border-color: rgba(124, 92, 255, 0.4); }
+.chip-warn { color: hsl(45 93% 47%); border-color: hsl(45 93% 47% / 0.35); }
+.chip-danger { color: hsl(0 84% 60%); border-color: hsl(0 84% 60% / 0.35); }
+.chip-ok { color: hsl(142 76% 36%); border-color: hsl(142 76% 36% / 0.35); }
+.chip-info { color: hsl(338 89% 60%); border-color: hsl(338 89% 47% / 0.4); }

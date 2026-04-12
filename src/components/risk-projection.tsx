@@ -24,9 +24,9 @@ export function RiskProjection({ insights }: { insights: PersonalizedInsights })
       {/* Summary */}
       <section className="card p-4 sm:p-6">
         <h2 className="font-semibold mb-2 flex items-center gap-2">
-          <Shield className="w-4 h-4 text-[#7c5cff]" /> Personalized assessment
+          <Shield className="w-4 h-4 text-[#E20A7F]" /> Personalized assessment
         </h2>
-        <p className="text-[#d4d4d8] leading-relaxed italic border-l-4 border-[#7c5cff] pl-4">
+        <p className="text-[#d4d4d8] leading-relaxed italic border-l-4 border-[#E20A7F] pl-4">
           &ldquo;{insights.summary}&rdquo;
         </p>
       </section>
@@ -34,7 +34,7 @@ export function RiskProjection({ insights }: { insights: PersonalizedInsights })
       {/* 10-Year Risk Projection — table on desktop, cards on mobile */}
       <section className="card p-4 sm:p-6">
         <h2 className="font-semibold mb-4 flex items-center gap-2">
-          <TrendingUp className="w-4 h-4 text-[#7c5cff]" /> 10-year risk
+          <TrendingUp className="w-4 h-4 text-[#E20A7F]" /> 10-year risk
           projection
         </h2>
 
@@ -42,7 +42,7 @@ export function RiskProjection({ insights }: { insights: PersonalizedInsights })
         <div className="hidden sm:block overflow-x-auto -mx-2 px-2">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-[#1f1f24]">
+              <tr className="border-b border-[#2C3B57]">
                 <th className="text-left py-3 pr-4 text-[#71717a] font-medium">Category</th>
                 <th className="text-center py-3 px-3 text-[#71717a] font-medium">Now</th>
                 <th className="text-center py-3 px-3 text-[#71717a] font-medium">+5 yr</th>
@@ -51,7 +51,7 @@ export function RiskProjection({ insights }: { insights: PersonalizedInsights })
             </thead>
             <tbody>
               {insights.riskProjection.map((row, i) => (
-                <tr key={i} className="border-b border-[#1f1f24]/50">
+                <tr key={i} className="border-b border-[#2C3B57]/50">
                   <td className="py-4 pr-4 font-medium text-[#d4d4d8]">{row.category}</td>
                   <RiskCell level={row.now.level} reason={row.now.reason} />
                   <RiskCell level={row.fiveYear.level} reason={row.fiveYear.reason} />
@@ -74,12 +74,12 @@ export function RiskProjection({ insights }: { insights: PersonalizedInsights })
       {insights.recommendations.length > 0 && (
         <section className="card p-4 sm:p-6">
           <h2 className="font-semibold mb-3 flex items-center gap-2">
-            <ArrowRight className="w-4 h-4 text-[#7c5cff]" /> Coverage to consider
+            <ArrowRight className="w-4 h-4 text-[#E20A7F]" /> Coverage to consider
           </h2>
           <ul className="space-y-2">
             {insights.recommendations.map((r, i) => (
               <li key={i} className="text-sm text-[#d4d4d8] flex gap-2">
-                <span className="text-[#7c5cff] mt-0.5 shrink-0">&#x2192;</span>
+                <span className="text-[#E20A7F] mt-0.5 shrink-0">&#x2192;</span>
                 {r}
               </li>
             ))}
@@ -128,7 +128,7 @@ function RiskCell({ level, reason }: { level: RiskLevel; reason: string }) {
 
 function MobileRiskCard({ row }: { row: RiskRow }) {
   return (
-    <div className="border border-[#1f1f24] rounded-lg p-3">
+    <div className="border border-[#2C3B57] rounded-lg p-3">
       <div className="font-medium text-sm text-[#d4d4d8] mb-3">{row.category}</div>
       <div className="grid grid-cols-3 gap-2 text-center">
         {[

@@ -3,10 +3,10 @@ import { Eye } from "lucide-react";
 
 export function Nav() {
   return (
-    <header className="sticky top-0 z-40 backdrop-blur-md bg-black/40 border-b border-[#1f1f24]">
+    <header className="sticky top-0 z-40 backdrop-blur-md bg-black/40 border-b border-[#2C3B57]">
       <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 font-semibold">
-          <span className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#7c5cff] to-[#4a2ecc] grid place-items-center">
+          <span className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#E20A7F] to-[#4a2ecc] grid place-items-center">
             <Eye className="w-4 h-4" />
           </span>
           PolicyLens

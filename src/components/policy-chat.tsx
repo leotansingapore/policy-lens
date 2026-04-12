@@ -141,7 +141,7 @@ export function PolicyChat({ policy, pendingQuestion, onQuestionConsumed }: Prop
   return (
     <section ref={sectionRef} className="card p-4 sm:p-6">
       <h2 className="font-semibold mb-4 flex items-center gap-2">
-        <MessageSquare className="w-4 h-4 text-[#7c5cff]" /> Ask about this policy
+        <MessageSquare className="w-4 h-4 text-[#E20A7F]" /> Ask about this policy
       </h2>
 
       <div className="space-y-3 mb-4 max-h-[460px] overflow-y-auto">
@@ -159,7 +159,7 @@ export function PolicyChat({ policy, pendingQuestion, onQuestionConsumed }: Prop
                     taRef.current?.focus();
                     setTimeout(autoresize, 0);
                   }}
-                  className="text-xs px-3 py-1.5 rounded-full border border-[#1f1f24] bg-[#0f0f12] text-[#a1a1aa] hover:text-white hover:border-[#7c5cff]/50 transition disabled:opacity-50"
+                  className="text-xs px-3 py-1.5 rounded-full border border-[#2C3B57] bg-[#0D1526] text-[#a1a1aa] hover:text-white hover:border-[#E20A7F]/50 transition disabled:opacity-50"
                 >
                   {s}
                 </button>
@@ -172,8 +172,8 @@ export function PolicyChat({ policy, pendingQuestion, onQuestionConsumed }: Prop
             key={i}
             className={`text-sm leading-relaxed p-3 rounded-lg ${
               m.role === "user"
-                ? "bg-[#1a1530] border border-[#7c5cff]/30"
-                : "bg-[#0f0f12] border border-[#1f1f24]"
+                ? "bg-[#1A0A15] border border-[#E20A7F]/30"
+                : "bg-[#0D1526] border border-[#2C3B57]"
             }`}
           >
             <div className="text-xs text-[#71717a] mb-1">
@@ -200,7 +200,7 @@ export function PolicyChat({ policy, pendingQuestion, onQuestionConsumed }: Prop
           onKeyDown={handleKey}
           disabled={busy}
           placeholder="Ask a question about this policy..."
-          className="flex-1 bg-[#09090b] border border-[#1f1f24] rounded-lg px-3 py-2 text-sm outline-none focus:border-[#7c5cff] resize-none min-h-[40px] max-h-[160px]"
+          className="flex-1 bg-[#080D1A] border border-[#2C3B57] rounded-lg px-3 py-2 text-sm outline-none focus:border-[#E20A7F] resize-none min-h-[40px] max-h-[160px]"
         />
         <button
           className="btn btn-primary"

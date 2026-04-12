@@ -136,13 +136,13 @@ export default function PolicyDetailPage() {
         </div>
       </header>
 
-      <section className="mb-8 border-l-4 border-[#7c5cff] pl-4 sm:pl-5 py-3">
+      <section className="mb-8 border-l-4 border-[#E20A7F] pl-4 sm:pl-5 py-3">
         <p className="text-base sm:text-lg text-[#d4d4d8] leading-relaxed italic">
           &ldquo;{policy.summary}&rdquo;
         </p>
       </section>
 
-      <div className="flex gap-1 sm:gap-2 mb-6 border-b border-[#1f1f24] overflow-x-auto">
+      <div className="flex gap-1 sm:gap-2 mb-6 border-b border-[#2C3B57] overflow-x-auto">
         <TabButton
           active={tab === "fine-print"}
           onClick={() => setTab("fine-print")}
@@ -192,7 +192,7 @@ export default function PolicyDetailPage() {
           />
           <FindingsSection
             title="Waiting periods"
-            icon={<Info className="w-4 h-4 text-[#7c5cff]" />}
+            icon={<Info className="w-4 h-4 text-[#E20A7F]" />}
             findings={policy.waitingPeriods}
             onAsk={askAboutFinding}
           />
@@ -203,7 +203,7 @@ export default function PolicyDetailPage() {
         <>
           <section className="card p-4 sm:p-6 mb-6">
             <h2 className="font-semibold mb-2 flex items-center gap-2">
-              <Search className="w-4 h-4 text-[#7c5cff]" /> What this policy
+              <Search className="w-4 h-4 text-[#E20A7F]" /> What this policy
               doesn&apos;t cover
             </h2>
             <p className="text-sm text-[#a1a1aa] leading-relaxed">
@@ -239,11 +239,11 @@ export default function PolicyDetailPage() {
 
           {insightsLoading && (
             <section className="card p-4 sm:p-6 mb-6 animate-pulse">
-              <div className="h-5 w-48 bg-[#1f1f24] rounded mb-4" />
+              <div className="h-5 w-48 bg-[#2C3B57] rounded mb-4" />
               <div className="space-y-3">
-                <div className="h-4 w-full bg-[#1f1f24] rounded" />
-                <div className="h-4 w-3/4 bg-[#1f1f24] rounded" />
-                <div className="h-20 w-full bg-[#1f1f24] rounded" />
+                <div className="h-4 w-full bg-[#2C3B57] rounded" />
+                <div className="h-4 w-3/4 bg-[#2C3B57] rounded" />
+                <div className="h-20 w-full bg-[#2C3B57] rounded" />
               </div>
             </section>
           )}
@@ -292,22 +292,22 @@ export default function PolicyDetailPage() {
 function ReportSkeleton() {
   return (
     <main className="max-w-5xl mx-auto px-4 sm:px-6 py-10 animate-pulse">
-      <div className="h-4 w-28 bg-[#1f1f24] rounded mb-6" />
-      <div className="h-3 w-20 bg-[#1f1f24] rounded mb-3" />
-      <div className="h-8 w-3/4 sm:w-80 bg-[#1f1f24] rounded mb-2" />
-      <div className="h-4 w-48 bg-[#1f1f24] rounded mb-6" />
-      <div className="border-l-4 border-[#1f1f24] pl-5 py-3 mb-8">
-        <div className="h-5 w-full bg-[#1f1f24] rounded mb-2" />
-        <div className="h-5 w-3/4 bg-[#1f1f24] rounded" />
+      <div className="h-4 w-28 bg-[#2C3B57] rounded mb-6" />
+      <div className="h-3 w-20 bg-[#2C3B57] rounded mb-3" />
+      <div className="h-8 w-3/4 sm:w-80 bg-[#2C3B57] rounded mb-2" />
+      <div className="h-4 w-48 bg-[#2C3B57] rounded mb-6" />
+      <div className="border-l-4 border-[#2C3B57] pl-5 py-3 mb-8">
+        <div className="h-5 w-full bg-[#2C3B57] rounded mb-2" />
+        <div className="h-5 w-3/4 bg-[#2C3B57] rounded" />
       </div>
       {[1, 2, 3].map((n) => (
         <div key={n} className="card p-4 sm:p-6 mb-6">
-          <div className="h-5 w-40 bg-[#1f1f24] rounded mb-4" />
+          <div className="h-5 w-40 bg-[#2C3B57] rounded mb-4" />
           <div className="space-y-3">
             {[1, 2].map((j) => (
-              <div key={j} className="border-l-2 border-[#1f1f24] pl-4 py-1">
-                <div className="h-4 w-56 bg-[#1f1f24] rounded mb-2" />
-                <div className="h-3 w-full bg-[#1f1f24] rounded" />
+              <div key={j} className="border-l-2 border-[#2C3B57] pl-4 py-1">
+                <div className="h-4 w-56 bg-[#2C3B57] rounded mb-2" />
+                <div className="h-3 w-full bg-[#2C3B57] rounded" />
               </div>
             ))}
           </div>
@@ -338,7 +338,7 @@ function TabButton({
       onClick={onClick}
       className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-3 text-xs sm:text-sm font-medium border-b-2 transition -mb-px whitespace-nowrap ${
         active
-          ? "border-[#7c5cff] text-white"
+          ? "border-[#E20A7F] text-white"
           : "border-transparent text-[#71717a] hover:text-[#d4d4d8]"
       }`}
     >
@@ -349,8 +349,8 @@ function TabButton({
         <span
           className={`text-xs px-1.5 sm:px-2 py-0.5 rounded-full ${
             active
-              ? "bg-[#7c5cff]/20 text-[#c4b5fd]"
-              : "bg-[#1f1f24] text-[#71717a]"
+              ? "bg-[#E20A7F]/20 text-[#F5A0C8]"
+              : "bg-[#2C3B57] text-[#71717a]"
           }`}
         >
           {count}
@@ -394,7 +394,7 @@ function FindingCard({
                 e.stopPropagation();
                 onAsk(finding);
               }}
-              className="text-[#71717a] hover:text-[#7c5cff] transition p-1 rounded opacity-0 group-hover:opacity-100"
+              className="text-[#71717a] hover:text-[#E20A7F] transition p-1 rounded opacity-0 group-hover:opacity-100"
               title="Ask about this"
               aria-label="Ask about this finding"
             >
@@ -468,7 +468,7 @@ function severityColor(s: Finding["severity"]) {
       ? "#f5a524"
       : s === "good"
         ? "#22c55e"
-        : "#7c5cff";
+        : "#E20A7F";
 }
 function severityChip(s: Finding["severity"]) {
   return s === "critical"

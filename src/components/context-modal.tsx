@@ -72,7 +72,7 @@ export function ContextModal({ open, onClose, onSave, loading }: Props) {
         </button>
 
         <h2 className="font-semibold text-lg mb-1 flex items-center gap-2">
-          <User className="w-5 h-5 text-[#7c5cff]" />
+          <User className="w-5 h-5 text-[#E20A7F]" />
           Your context
         </h2>
         <p className="text-sm text-[#a1a1aa] mb-5">
@@ -117,7 +117,7 @@ export function ContextModal({ open, onClose, onSave, loading }: Props) {
               onChange={(e) => setExisting(e.target.value)}
               placeholder="e.g. Company group insurance, AIA HealthShield Gold, Prudential PRUActive Term..."
               rows={2}
-              className="w-full bg-[#09090b] border border-[#1f1f24] rounded-lg px-3 py-2 text-sm outline-none focus:border-[#7c5cff] resize-none"
+              className="w-full bg-[#080D1A] border border-[#2C3B57] rounded-lg px-3 py-2 text-sm outline-none focus:border-[#E20A7F] resize-none"
             />
           </div>
 
@@ -171,7 +171,7 @@ function Field({
         min={min}
         max={max}
         required={required}
-        className="w-full bg-[#09090b] border border-[#1f1f24] rounded-lg px-3 py-2 text-sm outline-none focus:border-[#7c5cff]"
+        className="w-full bg-[#080D1A] border border-[#2C3B57] rounded-lg px-3 py-2 text-sm outline-none focus:border-[#E20A7F]"
       />
     </div>
   );

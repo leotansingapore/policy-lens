@@ -82,7 +82,7 @@ export function UploadZone() {
   return (
     <div className="card p-6 md:p-8">
       <div
-        className="border-2 border-dashed border-[#2a2a30] hover:border-[#7c5cff] rounded-xl p-10 text-center cursor-pointer transition-colors"
+        className="border-2 border-dashed border-[#2a2a30] hover:border-[#E20A7F] rounded-xl p-10 text-center cursor-pointer transition-colors"
         onClick={() => !busy && inputRef.current?.click()}
         onDragOver={(e) => e.preventDefault()}
         onDrop={(e) => {
@@ -104,7 +104,7 @@ export function UploadZone() {
         />
         {file ? (
           <div className="flex flex-col items-center gap-3">
-            <FileText className="w-10 h-10 text-[#7c5cff]" />
+            <FileText className="w-10 h-10 text-[#E20A7F]" />
             <div className="font-medium">{file.name}</div>
             <div className="text-xs text-[#71717a]">
               {(file.size / 1024 / 1024).toFixed(2)} MB
@@ -130,7 +130,7 @@ export function UploadZone() {
             disabled={busy}
             className={`chip ${
               policyType === t.value ? "chip-info" : ""
-            } cursor-pointer hover:border-[#7c5cff]`}
+            } cursor-pointer hover:border-[#E20A7F]`}
           >
             {t.label}
           </button>
@@ -149,8 +149,8 @@ export function UploadZone() {
                     done
                       ? "bg-[#22c55e]/20 text-[#22c55e]"
                       : active
-                        ? "bg-[#7c5cff]/20 text-[#7c5cff] ring-2 ring-[#7c5cff]/40"
-                        : "bg-[#1f1f24] text-[#71717a]"
+                        ? "bg-[#E20A7F]/20 text-[#E20A7F] ring-2 ring-[#E20A7F]/40"
+                        : "bg-[#2C3B57] text-[#71717a]"
                   }`}
                 >
                   {done ? "\u2713" : active ? <Loader2 className="w-3 h-3 animate-spin" /> : i + 1}
