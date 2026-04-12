@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Send, MessageSquare, Loader2 } from "lucide-react";
 import type { PolicyAnalysis } from "@/lib/types";
 
@@ -9,11 +9,31 @@ interface Msg {
   content: string;
 }
 
-export function PolicyChat({ policy }: { policy: PolicyAnalysis }) {
+interface Props {
+  policy: PolicyAnalysis;
+  pendingQuestion?: string | null;
+  onQuestionConsumed?: () => void;
+}
+
+export function PolicyChat({ policy, pendingQuestion, onQuestionConsumed }: Props) {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const taRef = useRef<HTMLTextAreaElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // Handle incoming question from finding card
+  useEffect(() => {
+    if (pendingQuestion && !busy) {
+      setInput(pendingQuestion);
+      onQuestionConsumed?.();
+      sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      setTimeout(() => {
+        taRef.current?.focus();
+        autoresize();
+      }, 300);
+    }
+  }, [pendingQuestion, busy, onQuestionConsumed]);
 
   function autoresize() {
     const ta = taRef.current;
@@ -119,7 +139,7 @@ export function PolicyChat({ policy }: { policy: PolicyAnalysis }) {
   ];
 
   return (
-    <section className="card p-6">
+    <section ref={sectionRef} className="card p-4 sm:p-6">
       <h2 className="font-semibold mb-4 flex items-center gap-2">
         <MessageSquare className="w-4 h-4 text-[#7c5cff]" /> Ask about this policy
       </h2>
@@ -159,7 +179,7 @@ export function PolicyChat({ policy }: { policy: PolicyAnalysis }) {
             <div className="text-xs text-[#71717a] mb-1">
               {m.role === "user" ? "You" : "PolicyLens"}
             </div>
-            <div className="whitespace-pre-wrap">{m.content || "…"}</div>
+            <div className="whitespace-pre-wrap">{m.content || "..."}</div>
           </div>
         ))}
       </div>
@@ -175,7 +195,7 @@ export function PolicyChat({ policy }: { policy: PolicyAnalysis }) {
           }}
           onKeyDown={handleKey}
           disabled={busy}
-          placeholder="Ask a question about this policy… (Shift+Enter for newline)"
+          placeholder="Ask a question about this policy..."
           className="flex-1 bg-[#09090b] border border-[#1f1f24] rounded-lg px-3 py-2 text-sm outline-none focus:border-[#7c5cff] resize-none min-h-[40px] max-h-[160px]"
         />
         <button

@@ -16,6 +16,7 @@ import {
   ChevronDown,
   ChevronUp,
   UserCircle,
+  MessageSquare,
 } from "lucide-react";
 import { PolicyChat } from "@/components/policy-chat";
 import { ContextModal, loadUserContext } from "@/components/context-modal";
@@ -31,6 +32,7 @@ export default function PolicyDetailPage() {
   const [insights, setInsights] = useState<PersonalizedInsights | null>(null);
   const [insightsLoading, setInsightsLoading] = useState(false);
   const [userCtx, setUserCtx] = useState<UserContext | null>(null);
+  const [chatQuestion, setChatQuestion] = useState<string | null>(null);
 
   useEffect(() => {
     const p = getPolicy(params.id);
@@ -63,7 +65,6 @@ export default function PolicyDetailPage() {
     [policy],
   );
 
-  // Auto-generate on mount if user context exists but insights don't
   useEffect(() => {
     const saved = loadUserContext();
     if (saved && !insights && policy && !insightsLoading) {
@@ -72,10 +73,14 @@ export default function PolicyDetailPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [policy]);
 
+  function askAboutFinding(f: Finding) {
+    setChatQuestion(`Tell me more about "${f.title}" — what does this mean for me in practice?`);
+  }
+
   if (policy === undefined) return <ReportSkeleton />;
   if (policy === null) {
     return (
-      <main className="max-w-5xl mx-auto px-6 py-14">
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-14">
         <Link href="/portfolio" className="btn btn-ghost mb-4">
           <ArrowLeft className="w-4 h-4" /> Back
         </Link>
@@ -96,17 +101,17 @@ export default function PolicyDetailPage() {
     (policy.waitingPeriods?.length ?? 0);
 
   return (
-    <main className="max-w-5xl mx-auto px-6 py-10">
-      <div className="flex items-center justify-between mb-5">
-        <Link href="/portfolio" className="btn btn-ghost text-sm">
-          <ArrowLeft className="w-4 h-4" /> Back to portfolio
+    <main className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
+      <div className="flex items-center justify-between mb-5 gap-2">
+        <Link href="/portfolio" className="btn btn-ghost text-sm shrink-0">
+          <ArrowLeft className="w-4 h-4" /> <span className="hidden sm:inline">Back to portfolio</span><span className="sm:hidden">Back</span>
         </Link>
         <button
           onClick={() => setContextOpen(true)}
-          className="btn btn-ghost text-sm"
+          className="btn btn-ghost text-sm shrink-0"
         >
           <UserCircle className="w-4 h-4" />
-          {userCtx ? `Age ${userCtx.age}` : "Update context"}
+          <span className="hidden sm:inline">{userCtx ? `Age ${userCtx.age}` : "Update context"}</span>
         </button>
       </div>
 
@@ -114,7 +119,7 @@ export default function PolicyDetailPage() {
         <div className="text-xs uppercase tracking-wide text-[#71717a] mb-2">
           {policy.policyType}
         </div>
-        <h1 className="text-3xl font-semibold mb-1">
+        <h1 className="text-2xl sm:text-3xl font-semibold mb-1 break-words">
           {policy.planName ?? policy.fileName}
         </h1>
         <div className="text-[#a1a1aa]">{policy.insurer ?? "Unknown insurer"}</div>
@@ -131,18 +136,19 @@ export default function PolicyDetailPage() {
         </div>
       </header>
 
-      <section className="mb-8 border-l-4 border-[#7c5cff] pl-5 py-3">
-        <p className="text-lg text-[#d4d4d8] leading-relaxed italic">
+      <section className="mb-8 border-l-4 border-[#7c5cff] pl-4 sm:pl-5 py-3">
+        <p className="text-base sm:text-lg text-[#d4d4d8] leading-relaxed italic">
           &ldquo;{policy.summary}&rdquo;
         </p>
       </section>
 
-      <div className="flex gap-2 mb-6 border-b border-[#1f1f24]">
+      <div className="flex gap-1 sm:gap-2 mb-6 border-b border-[#1f1f24] overflow-x-auto">
         <TabButton
           active={tab === "fine-print"}
           onClick={() => setTab("fine-print")}
           icon={<FileText className="w-4 h-4" />}
           label="Fine Print Decoder"
+          shortLabel="Fine Print"
           count={flagCount}
         />
         <TabButton
@@ -150,6 +156,7 @@ export default function PolicyDetailPage() {
           onClick={() => setTab("gap-finder")}
           icon={<Search className="w-4 h-4" />}
           label="Coverage Gap Finder"
+          shortLabel="Gap Finder"
           count={gapCount}
         />
       </div>
@@ -157,7 +164,7 @@ export default function PolicyDetailPage() {
       {tab === "fine-print" && (
         <>
           {policy.coverageHighlights?.length > 0 && (
-            <section className="card p-6 mb-6">
+            <section className="card p-4 sm:p-6 mb-6">
               <h2 className="font-semibold mb-3 flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-[#22c55e]" /> Coverage highlights
               </h2>
@@ -175,23 +182,26 @@ export default function PolicyDetailPage() {
             title="Red flags"
             icon={<ShieldAlert className="w-4 h-4 text-[#ef4444]" />}
             findings={policy.redFlags}
+            onAsk={askAboutFinding}
           />
           <FindingsSection
             title="Exclusions that matter"
             icon={<AlertTriangle className="w-4 h-4 text-[#f5a524]" />}
             findings={policy.exclusions}
+            onAsk={askAboutFinding}
           />
           <FindingsSection
             title="Waiting periods"
             icon={<Info className="w-4 h-4 text-[#7c5cff]" />}
             findings={policy.waitingPeriods}
+            onAsk={askAboutFinding}
           />
         </>
       )}
 
       {tab === "gap-finder" && (
         <>
-          <section className="card p-6 mb-6">
+          <section className="card p-4 sm:p-6 mb-6">
             <h2 className="font-semibold mb-2 flex items-center gap-2">
               <Search className="w-4 h-4 text-[#7c5cff]" /> What this policy
               doesn&apos;t cover
@@ -203,7 +213,7 @@ export default function PolicyDetailPage() {
           </section>
 
           {gapCount === 0 ? (
-            <section className="card p-6 mb-6 text-sm text-[#a1a1aa]">
+            <section className="card p-4 sm:p-6 mb-6 text-sm text-[#a1a1aa]">
               No material coverage gaps were detected on this policy.
             </section>
           ) : (
@@ -211,12 +221,13 @@ export default function PolicyDetailPage() {
               title={`${gapCount} coverage gap${gapCount === 1 ? "" : "s"} found`}
               icon={<AlertTriangle className="w-4 h-4 text-[#f5a524]" />}
               findings={policy.gaps}
+              onAsk={askAboutFinding}
               alwaysShowHeader
             />
           )}
 
           {policy.questionsToAsk?.length > 0 && (
-            <section className="card p-6 mb-6">
+            <section className="card p-4 sm:p-6 mb-6">
               <h2 className="font-semibold mb-3">Questions to ask your advisor</h2>
               <ol className="space-y-2 list-decimal list-inside text-sm text-[#d4d4d8]">
                 {policy.questionsToAsk.map((q, i) => (
@@ -226,9 +237,8 @@ export default function PolicyDetailPage() {
             </section>
           )}
 
-          {/* Personalized section */}
           {insightsLoading && (
-            <section className="card p-6 mb-6 animate-pulse">
+            <section className="card p-4 sm:p-6 mb-6 animate-pulse">
               <div className="h-5 w-48 bg-[#1f1f24] rounded mb-4" />
               <div className="space-y-3">
                 <div className="h-4 w-full bg-[#1f1f24] rounded" />
@@ -238,12 +248,10 @@ export default function PolicyDetailPage() {
             </section>
           )}
 
-          {insights && !insightsLoading && (
-            <RiskProjection insights={insights} />
-          )}
+          {insights && !insightsLoading && <RiskProjection insights={insights} />}
 
           {!insights && !insightsLoading && (
-            <section className="card p-6 mb-6 text-center">
+            <section className="card p-4 sm:p-6 mb-6 text-center">
               <p className="text-sm text-[#a1a1aa] mb-3">
                 Add your age, income, and dependents for a personalized 10-year
                 risk projection and coverage recommendations.
@@ -259,7 +267,11 @@ export default function PolicyDetailPage() {
         </>
       )}
 
-      <PolicyChat policy={policy} />
+      <PolicyChat
+        policy={policy}
+        pendingQuestion={chatQuestion}
+        onQuestionConsumed={() => setChatQuestion(null)}
+      />
 
       <footer className="mt-6 mb-2 text-center text-xs text-[#71717a]">
         This is not financial advice. Consult a licensed financial advisor before
@@ -279,24 +291,20 @@ export default function PolicyDetailPage() {
 /* ---------- Skeleton ---------- */
 function ReportSkeleton() {
   return (
-    <main className="max-w-5xl mx-auto px-6 py-10 animate-pulse">
+    <main className="max-w-5xl mx-auto px-4 sm:px-6 py-10 animate-pulse">
       <div className="h-4 w-28 bg-[#1f1f24] rounded mb-6" />
       <div className="h-3 w-20 bg-[#1f1f24] rounded mb-3" />
-      <div className="h-8 w-80 bg-[#1f1f24] rounded mb-2" />
+      <div className="h-8 w-3/4 sm:w-80 bg-[#1f1f24] rounded mb-2" />
       <div className="h-4 w-48 bg-[#1f1f24] rounded mb-6" />
       <div className="border-l-4 border-[#1f1f24] pl-5 py-3 mb-8">
         <div className="h-5 w-full bg-[#1f1f24] rounded mb-2" />
         <div className="h-5 w-3/4 bg-[#1f1f24] rounded" />
       </div>
-      <div className="flex gap-4 mb-6 border-b border-[#1f1f24] pb-2">
-        <div className="h-4 w-36 bg-[#1f1f24] rounded" />
-        <div className="h-4 w-36 bg-[#1f1f24] rounded" />
-      </div>
       {[1, 2, 3].map((n) => (
-        <div key={n} className="card p-6 mb-6">
+        <div key={n} className="card p-4 sm:p-6 mb-6">
           <div className="h-5 w-40 bg-[#1f1f24] rounded mb-4" />
           <div className="space-y-3">
-            {[1, 2, 3].map((j) => (
+            {[1, 2].map((j) => (
               <div key={j} className="border-l-2 border-[#1f1f24] pl-4 py-1">
                 <div className="h-4 w-56 bg-[#1f1f24] rounded mb-2" />
                 <div className="h-3 w-full bg-[#1f1f24] rounded" />
@@ -315,28 +323,31 @@ function TabButton({
   onClick,
   icon,
   label,
+  shortLabel,
   count,
 }: {
   active: boolean;
   onClick: () => void;
   icon: React.ReactNode;
   label: string;
+  shortLabel: string;
   count: number;
 }) {
   return (
     <button
       onClick={onClick}
-      className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition -mb-px ${
+      className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-3 text-xs sm:text-sm font-medium border-b-2 transition -mb-px whitespace-nowrap ${
         active
           ? "border-[#7c5cff] text-white"
           : "border-transparent text-[#71717a] hover:text-[#d4d4d8]"
       }`}
     >
       {icon}
-      {label}
+      <span className="hidden sm:inline">{label}</span>
+      <span className="sm:hidden">{shortLabel}</span>
       {count > 0 && (
         <span
-          className={`text-xs px-2 py-0.5 rounded-full ${
+          className={`text-xs px-1.5 sm:px-2 py-0.5 rounded-full ${
             active
               ? "bg-[#7c5cff]/20 text-[#c4b5fd]"
               : "bg-[#1f1f24] text-[#71717a]"
@@ -350,36 +361,65 @@ function TabButton({
 }
 
 /* ---------- Finding card ---------- */
-function FindingCard({ finding }: { finding: Finding }) {
+function FindingCard({
+  finding,
+  onAsk,
+}: {
+  finding: Finding;
+  onAsk?: (f: Finding) => void;
+}) {
   const [open, setOpen] = useState(false);
   const isLong = finding.detail.length > 120;
   const showDetail = open || !isLong;
 
   return (
     <div
-      className="border-l-2 pl-4 py-2 cursor-pointer group"
+      className="border-l-2 pl-3 sm:pl-4 py-2 group"
       style={{ borderColor: severityColor(finding.severity) }}
-      onClick={() => isLong && setOpen(!open)}
     >
-      <div className="flex items-center gap-2 mb-1">
-        <span className={`chip ${severityChip(finding.severity)}`}>
+      <div className="flex items-start gap-2 mb-1">
+        <span className={`chip ${severityChip(finding.severity)} shrink-0 mt-0.5`}>
           {finding.severity}
         </span>
-        <span className="font-medium text-sm flex-1">{finding.title}</span>
-        {isLong && (
-          <span className="text-[#71717a] opacity-0 group-hover:opacity-100 transition">
-            {open ? (
-              <ChevronUp className="w-3.5 h-3.5" />
-            ) : (
-              <ChevronDown className="w-3.5 h-3.5" />
-            )}
-          </span>
-        )}
+        <span
+          className="font-medium text-sm flex-1 cursor-pointer"
+          onClick={() => isLong && setOpen(!open)}
+        >
+          {finding.title}
+        </span>
+        <div className="flex items-center gap-1 shrink-0">
+          {onAsk && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onAsk(finding);
+              }}
+              className="text-[#71717a] hover:text-[#7c5cff] transition p-1 rounded opacity-0 group-hover:opacity-100"
+              title="Ask about this"
+              aria-label="Ask about this finding"
+            >
+              <MessageSquare className="w-3.5 h-3.5" />
+            </button>
+          )}
+          {isLong && (
+            <button
+              onClick={() => setOpen(!open)}
+              className="text-[#71717a] opacity-0 group-hover:opacity-100 transition p-1"
+            >
+              {open ? (
+                <ChevronUp className="w-3.5 h-3.5" />
+              ) : (
+                <ChevronDown className="w-3.5 h-3.5" />
+              )}
+            </button>
+          )}
+        </div>
       </div>
       <p
-        className={`text-sm text-[#a1a1aa] leading-relaxed transition-all ${
+        className={`text-sm text-[#a1a1aa] leading-relaxed transition-all cursor-pointer ${
           !showDetail ? "line-clamp-2" : ""
         }`}
+        onClick={() => isLong && setOpen(!open)}
       >
         {finding.detail}
       </p>
@@ -395,22 +435,26 @@ function FindingsSection({
   title,
   icon,
   findings,
+  onAsk,
   alwaysShowHeader = false,
 }: {
   title: string;
   icon: React.ReactNode;
   findings?: Finding[];
+  onAsk?: (f: Finding) => void;
   alwaysShowHeader?: boolean;
 }) {
   if (!alwaysShowHeader && (!findings || findings.length === 0)) return null;
   return (
-    <section className="card p-6 mb-6">
+    <section className="card p-4 sm:p-6 mb-6">
       <h2 className="font-semibold mb-4 flex items-center gap-2">
         {icon}
         {title}
       </h2>
       <div className="space-y-3">
-        {findings?.map((f, i) => <FindingCard key={i} finding={f} />)}
+        {findings?.map((f, i) => (
+          <FindingCard key={i} finding={f} onAsk={onAsk} />
+        ))}
       </div>
     </section>
   );

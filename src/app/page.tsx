@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="max-w-6xl mx-auto px-6 py-14">
+    <main className="max-w-6xl mx-auto px-4 sm:px-6 py-14">
       <section className="text-center max-w-3xl mx-auto mb-14">
         <div className="chip chip-info mx-auto mb-5">
           <span className="w-1.5 h-1.5 rounded-full bg-[#7c5cff]" />
