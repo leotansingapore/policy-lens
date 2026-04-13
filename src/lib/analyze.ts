@@ -45,6 +45,31 @@ Rules:
 - Severity: critical = likely claim denial or large financial loss. warning = material but not catastrophic. info = worth knowing. good = genuinely strong feature.
 - Aim for 3-8 items per findings array. More is not better.`;
 
+async function runAnalysis(
+  userContent: Array<
+    | { type: "text"; text: string }
+    | { type: "file"; data: Buffer; mimeType: string }
+  >,
+): Promise<z.infer<typeof analysisSchema>> {
+  let lastErr: unknown = null;
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      const res = await generateObject({
+        model: anthropic("claude-sonnet-4-6"),
+        schema: analysisSchema,
+        system: SYSTEM_PROMPT,
+        messages: [{ role: "user", content: userContent }],
+        maxTokens: 6000,
+        temperature: 0.2,
+      });
+      return res.object;
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw lastErr ?? new Error("analysis failed");
+}
+
 export async function analyzePolicyText(
   text: string,
   fileName: string,
@@ -63,31 +88,45 @@ ${truncated}
 
 Produce the structured analysis now.`;
 
-  let object: z.infer<typeof analysisSchema> | null = null;
-  let lastErr: unknown = null;
-  for (let attempt = 0; attempt < 2; attempt++) {
-    try {
-      const res = await generateObject({
-        model: anthropic("claude-sonnet-4-6"),
-        schema: analysisSchema,
-        system: SYSTEM_PROMPT,
-        prompt,
-        maxTokens: 6000,
-        temperature: 0.2,
-      });
-      object = res.object;
-      break;
-    } catch (e) {
-      lastErr = e;
-    }
-  }
-  if (!object) throw lastErr ?? new Error("analysis failed");
+  const object = await runAnalysis([{ type: "text", text: prompt }]);
 
   return {
     id: crypto.randomUUID(),
     fileName,
     createdAt: new Date().toISOString(),
     rawTextPreview: truncated,
+    ...object,
+  };
+}
+
+/**
+ * Fallback for scanned/watermark-only PDFs: hands the raw PDF to Claude,
+ * which OCRs the document natively and produces the structured analysis.
+ */
+export async function analyzePolicyPdf(
+  pdf: Buffer,
+  fileName: string,
+  hintedType?: PolicyType,
+): Promise<PolicyAnalysis> {
+  const prompt = `File name: ${fileName}
+${hintedType ? `User says the policy type is: ${hintedType}` : ""}
+
+The attached PDF could not be parsed by a text extractor (likely a scanned image or watermark-only layer). Read the document yourself — OCR the pages, ignore repeated watermark stamps such as "FSC COPY" or "SPECIMEN", and extract real policy content.
+
+If after OCR the document genuinely contains no policy content, return an analysis where summary explains that and findings are empty arrays (not fabricated).
+
+Produce the structured analysis now.`;
+
+  const object = await runAnalysis([
+    { type: "file", data: pdf, mimeType: "application/pdf" },
+    { type: "text", text: prompt },
+  ]);
+
+  return {
+    id: crypto.randomUUID(),
+    fileName,
+    createdAt: new Date().toISOString(),
+    rawTextPreview: "(OCR fallback — no plain-text layer available)",
     ...object,
   };
 }

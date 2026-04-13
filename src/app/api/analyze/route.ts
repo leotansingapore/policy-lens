@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { analyzePolicyText } from "@/lib/analyze";
+import { analyzePolicyText, analyzePolicyPdf } from "@/lib/analyze";
 import type { PolicyType } from "@/lib/types";
 
 export const runtime = "nodejs";
@@ -26,19 +26,30 @@ export async function POST(req: NextRequest) {
 
     const pdfParseMod = await import("pdf-parse");
     const pdfParse = (pdfParseMod as unknown as { default: (b: Buffer) => Promise<{ text: string }> }).default;
-    const parsed = await pdfParse(buffer);
 
-    if (!parsed.text || parsed.text.trim().length < 200) {
-      return NextResponse.json(
-        {
-          error:
-            "Could not extract enough text from this PDF. It may be a scanned image — try a text-based PDF export.",
-        },
-        { status: 422 },
-      );
+    let extractedText = "";
+    try {
+      const parsed = await pdfParse(buffer);
+      extractedText = parsed.text ?? "";
+    } catch {
+      extractedText = "";
     }
 
-    const analysis = await analyzePolicyText(parsed.text, file.name, hintedType ?? undefined);
+    const cleaned = extractedText.trim();
+    // Detect watermark-only extractions (e.g. a PDF that renders only "FSC COPY"
+    // repeated on every page). Signal: short unique-token set relative to length.
+    const uniqueTokens = new Set(
+      cleaned.toLowerCase().split(/\s+/).filter((t) => t.length > 2),
+    );
+    const isWatermarkOnly =
+      cleaned.length >= 200 && uniqueTokens.size < 15;
+
+    const needsOcrFallback = cleaned.length < 200 || isWatermarkOnly;
+
+    const analysis = needsOcrFallback
+      ? await analyzePolicyPdf(buffer, file.name, hintedType ?? undefined)
+      : await analyzePolicyText(cleaned, file.name, hintedType ?? undefined);
+
     return NextResponse.json(analysis);
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Unknown error";
