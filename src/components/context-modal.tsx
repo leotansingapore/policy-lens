@@ -125,7 +125,7 @@ export function ContextModal({ open, onClose, onSave, loading }: Props) {
           <button
             type="submit"
             disabled={!age || loading}
-            className="btn btn-primary w-full"
+            className={`btn btn-primary w-full ${loading ? "disabled:opacity-100" : ""}`}
           >
             {loading ? (
               <>
