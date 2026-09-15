@@ -2,7 +2,8 @@
 
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Upload, Loader2, FileText, RotateCcw } from "lucide-react";
+import { Upload, FileText, RotateCcw } from "lucide-react";
+import { ThinkingOrb } from "thinking-orbs";
 import { savePolicy } from "@/lib/storage";
 import type { PolicyAnalysis, PolicyType } from "@/lib/types";
 
@@ -21,6 +22,12 @@ const STAGES = [
 ] as const;
 
 type StageKey = (typeof STAGES)[number]["key"];
+
+function orbState(key: StageKey) {
+  if (key === "extract") return "searching";
+  if (key === "analyze") return "solving";
+  return "working";
+}
 
 export function UploadZone() {
   const router = useRouter();
@@ -153,7 +160,7 @@ export function UploadZone() {
                         : "bg-[hsl(var(--border))] text-[hsl(var(--text-muted))]"
                   }`}
                 >
-                  {done ? "\u2713" : active ? <Loader2 className="w-3 h-3 animate-spin" /> : i + 1}
+                  {done ? "\u2713" : active ? <ThinkingOrb state={orbState(s.key)} size={20} aria-hidden="true" /> : i + 1}
                 </div>
                 <span
                   className={`text-sm ${

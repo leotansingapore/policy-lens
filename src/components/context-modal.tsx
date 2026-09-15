@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X, Loader2, User } from "lucide-react";
+import { X, User } from "lucide-react";
+import { ThinkingOrb } from "thinking-orbs";
 import type { UserContext } from "@/lib/types";
 
 const STORAGE_KEY = "policylens.usercontext.v1";
@@ -128,7 +129,7 @@ export function ContextModal({ open, onClose, onSave, loading }: Props) {
           >
             {loading ? (
               <>
-                <Loader2 className="w-4 h-4 animate-spin" /> Generating
+                <ThinkingOrb state="working" size={20} theme="dark" aria-hidden="true" /> Generating
                 insights...
               </>
             ) : (
