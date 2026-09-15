@@ -152,7 +152,7 @@ export function UploadZone() {
             return (
               <div key={s.key} className="flex items-center gap-3">
                 <div
-                  className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium transition-all ${
+                  className={`w-6 h-6 shrink-0 rounded-full flex items-center justify-center text-xs font-medium transition-all ${
                     done
                       ? "bg-[#22c55e]/20 text-[#22c55e]"
                       : active
