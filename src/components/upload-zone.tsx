@@ -167,7 +167,7 @@ export function UploadZone() {
                     done
                       ? "text-[#22c55e]"
                       : active
-                        ? "text-white"
+                        ? "text-[hsl(var(--text))]"
                         : "text-[hsl(var(--text-muted))]"
                   }`}
                 >
