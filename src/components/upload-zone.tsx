@@ -24,7 +24,6 @@ const STAGES = [
 type StageKey = (typeof STAGES)[number]["key"];
 
 function orbState(key: StageKey) {
-  if (key === "extract") return "searching";
   if (key === "analyze") return "solving";
   return "working";
 }
