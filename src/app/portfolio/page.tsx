@@ -35,10 +35,7 @@ export default function PortfolioPage() {
       ) : items.length === 0 ? (
         <div className="card p-12 text-center">
           <FileText className="w-10 h-10 text-[hsl(var(--text-muted))] mx-auto mb-3" />
-          <h3 className="font-semibold mb-1">No policies yet</h3>
-          <p className="text-sm text-[hsl(var(--text-secondary))] mb-5">
-            Upload your first policy to start building your portfolio.
-          </p>
+          <h3 className="font-semibold mb-5">No policies yet</h3>
           <Link href="/" className="btn btn-primary">
             Analyze a policy
           </Link>

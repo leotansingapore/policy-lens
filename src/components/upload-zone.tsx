@@ -182,8 +182,7 @@ export function UploadZone() {
       )}
 
       {!busy && !error && (
-        <div className="mt-5 flex items-center justify-between gap-4">
-          <div className="text-sm text-[hsl(var(--text-secondary))]">Pick a policy type, then analyze.</div>
+        <div className="mt-5 flex items-center justify-end gap-4">
           <button className="btn btn-primary" onClick={onAnalyze} disabled={!file}>
             Analyze policy
           </button>
