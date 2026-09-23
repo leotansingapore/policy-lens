@@ -146,8 +146,7 @@ export function PolicyChat({ policy, pendingQuestion, onQuestionConsumed }: Prop
 
       <div className="space-y-3 mb-4 max-h-[460px] overflow-y-auto">
         {messages.length === 0 && (
-          <div className="space-y-2">
-            <div className="text-sm text-[hsl(var(--text-muted))]">Try one of these:</div>
+          <div>
             <div className="flex flex-wrap gap-2">
               {suggestions.map((s) => (
                 <button

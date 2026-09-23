@@ -201,17 +201,6 @@ export default function PolicyDetailPage() {
 
       {tab === "gap-finder" && (
         <>
-          <section className="card p-4 sm:p-6 mb-6">
-            <h2 className="font-semibold mb-2 flex items-center gap-2">
-              <Search className="w-4 h-4 text-[hsl(var(--accent))]" /> What this policy
-              doesn&apos;t cover
-            </h2>
-            <p className="text-sm text-[hsl(var(--text-secondary))] leading-relaxed">
-              Most consumers assume their policy is broader than it is. These are the
-              protections this plan leaves on the table.
-            </p>
-          </section>
-
           {gapCount === 0 ? (
             <section className="card p-4 sm:p-6 mb-6 text-sm text-[hsl(var(--text-secondary))]">
               No material coverage gaps were detected on this policy.

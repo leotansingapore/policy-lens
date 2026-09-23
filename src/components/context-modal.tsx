@@ -77,8 +77,7 @@ export function ContextModal({ open, onClose, onSave, loading }: Props) {
           Your context
         </h2>
         <p className="text-sm text-[hsl(var(--text-secondary))] mb-5">
-          Tell us about yourself so we can personalize the gap analysis and risk
-          projection. This stays in your browser.
+          This stays in your browser.
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
