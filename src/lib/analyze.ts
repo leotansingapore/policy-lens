@@ -1,4 +1,4 @@
-import { anthropic } from "@ai-sdk/anthropic";
+import { anthropic, CLAUDE_MODEL } from "./claude";
 import { generateObject } from "ai";
 import { z } from "zod";
 import type { PolicyAnalysis, PolicyType } from "./types";
@@ -55,12 +55,11 @@ async function runAnalysis(
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
       const res = await generateObject({
-        model: anthropic("claude-sonnet-4-6"),
+        model: anthropic(CLAUDE_MODEL),
         schema: analysisSchema,
         system: SYSTEM_PROMPT,
         messages: [{ role: "user", content: userContent }],
-        maxTokens: 6000,
-        temperature: 0.2,
+        maxTokens: 16000,
       });
       return res.object;
     } catch (e) {

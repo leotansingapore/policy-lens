@@ -1,4 +1,4 @@
-import { anthropic } from "@ai-sdk/anthropic";
+import { anthropic, CLAUDE_MODEL } from "@/lib/claude";
 import { generateObject } from "ai";
 import { z } from "zod";
 import { NextRequest, NextResponse } from "next/server";
@@ -68,12 +68,11 @@ ${(policyAnalysis.redFlags ?? []).map((f: { title: string; detail: string }) => 
 Generate personalized risk projection, recommendations, and tips.`;
 
     const { object } = await generateObject({
-      model: anthropic("claude-sonnet-4-6"),
+      model: anthropic(CLAUDE_MODEL),
       schema: insightsSchema,
       system: SYSTEM_PROMPT,
       prompt,
-      maxTokens: 3000,
-      temperature: 0.3,
+      maxTokens: 8000,
     });
 
     return NextResponse.json(object);

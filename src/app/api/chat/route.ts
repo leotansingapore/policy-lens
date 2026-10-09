@@ -1,4 +1,4 @@
-import { anthropic } from "@ai-sdk/anthropic";
+import { anthropic, CLAUDE_MODEL } from "@/lib/claude";
 import { streamText } from "ai";
 import { NextRequest } from "next/server";
 
@@ -61,11 +61,10 @@ Rules:
 - Keep answers tight — 1-4 short paragraphs unless the question explicitly asks for detail.`;
 
   const result = streamText({
-    model: anthropic("claude-sonnet-4-6"),
+    model: anthropic(CLAUDE_MODEL),
     system,
     messages,
-    maxTokens: 1500,
-    temperature: 0.3,
+    maxTokens: 4000,
   });
 
   return result.toDataStreamResponse();
